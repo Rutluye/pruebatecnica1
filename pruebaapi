@@ -1,0 +1,106 @@
+//tabla de registros
+
+CREATE TABLE clientes(
+ cliente_id integer not null,
+ cliente_nombre varchar(32),
+ cliente_apellido varchar(32),
+ cliente_direccion varchar(50),
+ cliente_email varchar(20),
+ cliente_celular varchar(9),
+);
+
+INSERT INTO clientes(
+            cliente_id, cliente_nombre, cliente_apellido, cliente_direccion,
+            cliente_email, cliente_celular)
+    VALUES ('0001','Rut', 'Ludeña', 'Av. Lima 3552 - Lince', 'rut@gmail.com', '981236649');
+    VALUES ('0002','Elizabet', 'Yepez', 'Av. Lima 3552 - Lince', 'elizabet@gmail.com', '981236649');
+    VALUES ('0003','Ariana', 'Ludeña', 'Av. Lima 3552 - Lince', 'ariana@gmail.com', '981236649');
+    VALUES ('0004','Maria', 'Roque', 'Av. Lima 3552 - Lince', 'maria@gmail.com', '981236649');
+    VALUES ('0005','Cipriana', 'Caro', 'Av. Lima 3552 - Lince', 'cipriana@gmail.com', '981236649');
+    VALUES ('0006','Marcelina', 'Roque', 'Av. Lima 3552 - Lince', 'marcelina@gmail.com', '981236649');
+
+//listar
+
+function main(){
+  return Ax.db.executeQuery(`
+        SELECT 
+        cliente_id as int,
+        cliente_nombre,
+        cliente_apellido,
+        cliente_direccion,
+        cliente_email,
+        cliente_celular
+
+        FROM clientes
+        `).toJSONArray();
+}
+
+//actualizar
+
+function main(data) {
+    Ax.db.update("clientes", {
+        cliente_id : data.cliente_id,
+        cliente_nombre : data.cliente_nombre,
+        cliente_email: data.cliente_email
+    },{
+        cliente_id: "?"
+    },data.cliente_id);
+    
+    return {
+        "valor": "success",
+        "cliente_id": data.cliente_id,
+        "cliente_nombre" : data.cliente_nombre,
+        "cliente_email": data.cliente_email
+        
+    }
+    
+}
+
+//eliminar
+
+function main(data) {
+
+    Ax.db.delete("clientes",{
+        cliente_id : data.cliente_id
+    });
+    
+    return {
+        "valor": "success",
+        "cliente_id" : data.cliente_id
+    }
+
+
+    
+}
+
+//ejercicio 2
+
+import java.util.Scanner;
+ 
+public class MuestraPrimos {
+  
+    public static void main(String[] args) {
+  
+        for (int i=1;i<=100;i++){
+            //Hacemos un casting para que nos devuelva un numero entero
+            int raiz=(int)Math.sqrt(i);
+            int contador=0;
+  
+            //Hacemos otro bucle para contar los divisibles
+            for (int j=raiz;j>1;j--){
+                if (i%j==0){
+                    contador++;
+                }
+            }
+  
+            /*Segun el numero de divisibles, sabemos si es primo o no
+             * Si es primo el contador sera 0
+             */
+  
+            if (contador<1){
+                System.out.println(i);
+            }
+  
+        }
+    }
+}
